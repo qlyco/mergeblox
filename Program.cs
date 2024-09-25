@@ -26,7 +26,7 @@
                 DrawGrid(game.Tiles, game.Width);
                 Console.WriteLine("\nWASD/Arrows = Move\nEsc = Exit\nR = Reset");
 
-                ConsoleKey key = Console.ReadKey().Key;
+                ConsoleKey key = Console.ReadKey(true).Key;
 
                 switch (key)
                 {
