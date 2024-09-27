@@ -1,5 +1,14 @@
-﻿namespace mergeblox
+﻿/*
+ * Tile.cs : The representation of a single Tile in the grid.
+ * 
+ * Also allows for tiles/grid manipulation using the provided
+ * utility methods.
+ */
+
+namespace mergeblox
 {
+    //.A single tile keeps track of its own value as well as the merge status.
+    // Merge status is only used for limiting the merging of tiles to once per tile per move.
     public class Tile
     {
         private int _value = -1;
@@ -8,7 +17,8 @@
         public int Value { get => _value; set => _value = value; }
         public bool Merged { get => _merged; set => _merged = value; }
 
-        private static void RotateTile(Tile[] tiles, int width = 4)
+        // Rotate the entire grid counter-clockwise
+        private static void RotateTile(Tile[] tiles, int width = 5)
         {
             List<Tile> rotated = [];
 
@@ -23,7 +33,8 @@
             rotated.ToArray().CopyTo(tiles, 0);
         }
 
-        internal static void Rotate(Tile[] tiles, int amount = 1, int width = 4)
+        // Rotate the grid counter-clockwise a set amount of times
+        internal static void Rotate(Tile[] tiles, int amount = 1, int width = 5)
         {
             for (int i = 0; i < amount; i++)
             {
@@ -31,6 +42,7 @@
             }
         }
 
+        // Reset the tiles in the grid to the default value
         internal static void Clear(Tile[] tiles, bool all = false)
         {
             foreach (Tile tile in tiles)
@@ -44,12 +56,14 @@
             }
         }
 
-        public static Tile At(Tile[] tiles, int x, int y, int width = 4)
+        // Get the tile at a specific coordinate in the grid
+        public static Tile At(Tile[] tiles, int x, int y, int width = 5)
         {
             return tiles[x + y * width];
         }
 
-        public static bool HasMove(Tile[] tiles, int width = 4)
+        // Check if the grid has a valid move available
+        public static bool HasMove(Tile[] tiles, int width = 5)
         {
             bool canMove = false;
 
@@ -95,7 +109,10 @@
             return canMove;
         }
 
-        internal static MoveInfo Shift(Tile[] tiles, int width = 4)
+        // Use this shift method to move the tiles towards the left
+        // To move towards other directions, rotate the grid so the direction to move is
+        // facing to the left
+        internal static MoveInfo Shift(Tile[] tiles, int width = 5)
         {
             MoveInfo info = new();
 
@@ -112,7 +129,8 @@
             return info;
         }
 
-        private static MoveInfo Move(Tile[] tiles, int x, int y, MoveInfo info, int width = 4)
+        // The tile-to-tile interaction are defined here. Called by the Shift method.
+        private static MoveInfo Move(Tile[] tiles, int x, int y, MoveInfo info, int width = 5)
         {
             const int MAX_SCORE = 12;
 
@@ -147,6 +165,7 @@
             }
         }
 
+        // AddTile is used for adding a random tile to a random empty spot on the grid
         internal static void AddTile(Tile[] tiles)
         {
             List<Tile> empty = [];
@@ -159,8 +178,11 @@
                 }
             }
 
-            int idx = Game.randomizer.Next(empty.Count);
-            empty[idx].Value = Game.randomizer.Next(2);
+            if (empty.Count > 0)
+            {
+                int idx = Game.randomizer.Next(empty.Count);
+                empty[idx].Value = Game.randomizer.Next(2);
+            }
         }
     }
 }

@@ -1,4 +1,11 @@
-﻿namespace mergeblox
+﻿/*
+ * MoveInfo.cs : Define the information regarding the last move taken by the player.
+ * 
+ * This is used internally for tracking info such as the total scores as well as if
+ * any tiles successfully moved after each move.
+ */
+
+namespace mergeblox
 {
 	internal class MoveInfo
 	{

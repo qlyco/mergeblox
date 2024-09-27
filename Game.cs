@@ -1,7 +1,16 @@
-﻿using System.ComponentModel;
+﻿/*
+ * Game.cs : The main implementation of the game
+ * 
+ * This class provides everything that's needed to build the game.
+ * It allows for custom seed, and customizable grid sizes.
+ * Manipulate the instance of this class to operate the game.
+ * Any front-end/client simply need to provide a way to let the user
+ * call the Move, and Reset method to make them play the game.
+ */
 
 namespace mergeblox
 {
+    // Direction enum is used to tell the Move method which way to shift the tiles
     public enum Direction
     {
         LEFT, UP, RIGHT, DOWN
@@ -9,10 +18,10 @@ namespace mergeblox
 
     public class Game
     {
-        public static Random randomizer = new();
+        internal static Random randomizer = new();
         
-        private int _width;
-        private Tile[] _tiles;
+        private readonly int _width;
+        private readonly Tile[] _tiles;
         private int _score = 0;
         private bool _running = false;
 
@@ -21,7 +30,8 @@ namespace mergeblox
         public bool Running { get => _running; set => _running = value; }
         public int Width { get => _width; }
 
-        public Game(int seed = -1, int width = 4) {
+        // By default, use random seed and 5x5 grid
+        public Game(int seed = -1, int width = 5) {
             if (seed <= 0)
             {
                 randomizer = new Random();
@@ -31,12 +41,14 @@ namespace mergeblox
             }
 
             _width = width;
+
             _tiles = new Tile[width * width];
 
             Setup();
             Reset();
         }
 
+        // Setup the grid, automatically called
         private void Setup()
         {
             for (int i = 0; i < _tiles.Length; i++)
@@ -45,6 +57,7 @@ namespace mergeblox
             }
         }
 
+        // Reset the board to a new state. Useful for restarting the game
         public void Reset()
         {
             _running = true;
@@ -61,6 +74,7 @@ namespace mergeblox
             }
         }
 
+        // Move all the tiles in a direction. Accepts which direction to move the tiles
         public void Move(Direction dir)
         {
             if (!_running)
@@ -97,11 +111,13 @@ namespace mergeblox
 
             _score += info.Score;
 
+            // If the move shifted/merged some tiles, spawn new tiles
             if (info.Shifted)
             {
                 Tile.AddTile(_tiles);
             }
 
+            // Check if there's any valid moves. End the game if it isn't
             if (!Tile.HasMove(_tiles, width: _width))
             {
                 _running = false;

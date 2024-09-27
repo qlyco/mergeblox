@@ -7,6 +7,15 @@
     <Nullable>enable</Nullable>
     <PublishTrimmed>True</PublishTrimmed>
 	<PublishSingleFile>true</PublishSingleFile>
+	<PackageId>com.qlycoworks.mergeblox</PackageId>
+	<Title>mergeblox</Title>
+	<Authors>dfx</Authors>
+	<Company>QLYCO</Company>
+	<Product>mergeblox</Product>
+	<Copyright>(C) 2024, QLYCO / dfx</Copyright>
+	<PackageProjectUrl>https://github.com/qlyco/mergeblox</PackageProjectUrl>
+	<RepositoryUrl>https://github.com/qlyco/mergeblox</RepositoryUrl>
+	<Version>1.0.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
